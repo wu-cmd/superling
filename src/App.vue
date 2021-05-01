@@ -1,21 +1,15 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <Tabbar></Tabbar>
+   <main-tab-bar></main-tab-bar>
   </div>
 </template>
-
 <script>
-// import MainTabBar from './components/content/mainTabbar/mainTabbar'
-import Tabbar from './components/common/tabbar/Tabbar'
-// import Tabbaritem from './components/common/tabbar/Tabbaritem'
-
+import MainTabBar from './components/content/mainTabbar/mainTabbar'
 export default {
   name: 'App',
   components: {
-    Tabbar
-    // Tabbaritem,
-    // MainTabBar,
+    MainTabBar
   }
 }
 </script>
