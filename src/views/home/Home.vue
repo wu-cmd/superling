@@ -6,9 +6,11 @@
       </nav-bar>
    <!-- 轮播图 -->
    <swipera :banners="banners"></swipera>
+   <tab-control :tabtitle="['流行','新款','精选']" ></tab-control>
    <!-- 四个大选项框 -->
      <home-recommends :recommend="recommends"></home-recommends>
      <this-week></this-week>
+     
      
    </div>
 </template>
@@ -30,6 +32,7 @@ components:{
    TabControl
 },
  data(){
+TabControl
     return{
       result:null,
       banners:[], 
@@ -72,4 +75,5 @@ components:{
   z-index: 9; */
 
 }
+
 </style>
