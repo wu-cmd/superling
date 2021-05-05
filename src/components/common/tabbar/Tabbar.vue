@@ -14,9 +14,10 @@ export default {
 .tabbar{
   position: fixed;
   display: flex;
-  bottom: 0px;
+  bottom:0px;
   left: 0px;
   height: 50px;
+  z-index: 999;
   width: 100%;
   border: 1px solid grey;
   background-color: #f2f2f2;
