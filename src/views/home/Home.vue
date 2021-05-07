@@ -7,7 +7,11 @@
  
  <scroll class="content"  :probe-type='3' :pull-up-load="true"  >
    <ul class="contenta">
-          asdasdsa 
+          <swipera :banners="banners"></swipera>
+          <home-recommends :recommend="recommends"></home-recommends>
+          <this-week></this-week>
+          <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick"></tab-control>
+          <good-list :goods="showGoods" ></good-list> 
           <li>fenlei李彪1</li>
           <li>fenlei李彪2</li>
           <li>fenlei李彪3</li>
@@ -89,6 +93,7 @@
           <li>fenlei李彪79</li>
           <li>fenlei李彪80</li>
           <li>fenlei李彪81</li>
+         
           <li>fenlei李彪82</li>
           <li>fenlei李彪83</li>
           <li>fenlei李彪84</li>
