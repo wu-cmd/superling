@@ -77,8 +77,8 @@ export default {
 </script>
 
 <style>
-.content{
+/* .content{
 
   height: 20000px;
-}
+} */
 </style>
