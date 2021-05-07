@@ -19,7 +19,7 @@ export default {
   height: 50px;
   z-index: 999;
   width: 100%;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   background-color: #f2f2f2;
 }
 </style>

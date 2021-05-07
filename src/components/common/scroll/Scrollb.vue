@@ -17,34 +17,35 @@ export default {
      scroll:null
    }
  },
- props:{
-   probeType:{ 
-     type:Number,
-     default:0
-   },
-   pullUpLoad:{
-     type:Boolean,
-     default:false
-   }
- },
+//  props:{
+//    probeType:{ 
+//      type:Number,
+//      default:0
+//    },
+//    pullUpLoad:{
+//      type:Boolean,
+//      default:false
+//    }
+//  },
   mounted() {
+         console.log("this.$refs.wrapper",this.$refs.Swrapper);
   this.scroll = new BScroll(this.$refs.Swrapper,{
     click: true,
-    probeType: this.probeType,
+    probeType: 3,
     pullUpLoad:this.pullUpLoad
     })
     // this.scroll.scrollTo(0,0)
     // 监听滚动的位置
     this.scroll.on('scroll',(position) => {
       console.log(position)
-      // this.$emit('scroll',position)
+      this.$emit('scroll',position)
     })
     // console.log(this.scroll)
 
     // 监听上拉事件
     // this.scroll.on('pullingUp',() => {
-    //   // console.log('上拉加载更多')
-    //   this.$emit('pullingUp')
+      // console.log('上拉加载更多')
+      // this.$emit('pullingUp')
     // })
 
     // if(this.probeType === 2 || this.probeType === 3){
@@ -62,23 +63,20 @@ export default {
 
 
   },
-  // methods: {
-  //   scrollTo(x,y,time=300){
-  //     this.scroll && this.scroll.scrollTo(x,y,time)
-  //   },
-  //   refresh(){
-  //     this.scroll && this.scroll.refresh()
-  //     // console.log('-------')
-  //   }
-  // },
+  methods: {
+    scrollTo(x,y,time=300){
+      this.scroll && this.scroll.scrollTo(x,y,time)
+    },
+    refresh(){
+      this.scroll && this.scroll.refresh()
+      // console.log('-------')
+    }
+  },
 }
 
 
 </script>
 
 <style>
-.content{
 
-  height: 20000px;
-}
 </style>

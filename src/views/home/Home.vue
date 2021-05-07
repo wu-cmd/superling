@@ -5,17 +5,17 @@
         <div slot="center">购物街</div>
       </nav-bar>
  
-  <scroll class="content">
+ <scroll class="content"  :probe-type='3' :pull-up-load="true"  >
       <!-- 轮播图 -->
    <swipera :banners="banners"></swipera>
    <!-- 四个大选项框 -->
      <home-recommends :recommend="recommends"></home-recommends>
      <this-week></this-week>
-      <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick"  ></tab-control>
+      <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick"></tab-control>
     <good-list :goods="showGoods" ></good-list>
         <!-- 命名要注意  注册驼峰式  引用才能用 - - -  -->
     <!-- <goods-list :goods="showGoods"></goods-list> -->
-     </scroll>
+  </scroll>
      
    </div>
 </template>
@@ -103,28 +103,43 @@ TabControl
       return this.goods[this.currentType].list
     }
   },
+    mounted() {
+      // 监听GoodsListitem.vue中 @load 发送出来的数据
+      // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
+    //   this.$bus.$on('itemImageLoad' ,() => {
+    //   console.log(this.$refs.Homescroll.scroll)
+    //   this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
+    // })
+
+    // 1.图片加载完成的事件监听
+    // const refresh = debounce(this.$refs.Homescroll.refresh,50)
+    // this.$bus.$on('itemImageLoad',() => {
+    //   refresh()
+    // })
+    }
 }
 </script>
 
 <style scoped>
 #home{
-  padding-top: 44px;
+  /* padding-top: 44px; */
   height: 100vh;
   position: relative;
 }
 .home-nav{
   background-color: var(--color-tint);
   color: white;
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 999;
+    z-index: 999; */
 
 }
 /* 滚动组件 */
 .content{
-  height: calc(100% - 52px);
+  height: calc(100% - 93px);
   overflow: hidden;
+  background: red;
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-  <div>
     <Tabbar>
       <Tabbaritem path="/home" activeColor="rgb(128,171,239)">
         <img src="../../../assets/img/tabbar/首页.png" slot="icon-img">
@@ -22,7 +21,6 @@
         <div slot="icon-text">我的</div>
         </Tabbaritem>
     </Tabbar>
-  </div>
 </template>
 <script>
 import Tabbar from '../../common/tabbar/Tabbar'
