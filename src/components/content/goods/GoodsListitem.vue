@@ -33,9 +33,11 @@ export default {
     },
     methods:{
         imageLoad(){
+
+          // 重重之重
 			// console.log('imageLoad')
 			// 将数据发射到 事件总线 中 $bus中，在Home.vue中a接收
-			// this.$bus.$emit('itemImageLoad')
+			this.$bus.$emit('itemImageLoad')
 		},
 		itemClick(){
 			console.log("你好")

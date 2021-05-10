@@ -28,6 +28,8 @@ export default {
    }
  },
   mounted() {
+
+    
   this.scroll = new BScroll(this.$refs.Swrapper,{
     click: true,
     probeType: this.probeType,
@@ -39,8 +41,8 @@ export default {
       console.log(position)
       // this.$emit('scroll',position)
     })
-    // console.log(this.scroll)
-
+    console.log(this.scroll)
+  this.scroll.refresh();
     // 监听上拉事件
     // this.scroll.on('pullingUp',() => {
     //   // console.log('上拉加载更多')
@@ -62,15 +64,15 @@ export default {
 
 
   },
-  // methods: {
-  //   scrollTo(x,y,time=300){
-  //     this.scroll && this.scroll.scrollTo(x,y,time)
-  //   },
-  //   refresh(){
-  //     this.scroll && this.scroll.refresh()
-  //     // console.log('-------')
-  //   }
-  // },
+  methods: {
+    // scrollTo(x,y,time=300){
+    //   this.scroll && this.scroll.scrollTo(x,y,time)
+    // },
+    refresh(){
+       this.scroll.refresh()
+      // console.log('-------')
+    }
+  },
 }
 
 
@@ -78,7 +80,7 @@ export default {
 
 <style>
 /* .content{
-
-  height: 20000px;
+  height: 5100px;
 } */
+
 </style>
