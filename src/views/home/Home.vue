@@ -5,11 +5,15 @@
         <div slot="center">购物街</div>
       </nav-bar>
  
- <scroll class="contenta"  ref="scroll" :probe-type='3' :pull-up-load="true"  >
+ <scroll class="contenta" 
+          ref="scroll"
+         :probe-type='3' 
+         :pull-up-load="true"  
+         @pullingUp="pullingUp">
           <swipera :banners="banners"></swipera>
           <home-recommends :recommend="recommends"></home-recommends>
           <this-week></this-week>
-          <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick"></tab-control>
+          <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick" ref="TabControl"></tab-control>
           <good-list :goods="showGoods" ></good-list> 
 
 
@@ -47,7 +51,6 @@ components:{
     Scroll
 },
  data(){
-TabControl
     return{
       result:null,
       banners:[], 
@@ -57,21 +60,17 @@ TabControl
         "new":{page:0,list:[]},
         "sell":{page:0,list:[]},
       },
-      currentType:"pop"
-
+      currentType:"pop",
+      tabOffsetTop:0
           }
  },
  created() {
      this.getHomeMultidata()
      this.getHomeGoods("pop")
      this.getHomeGoods('new')
-    this.getHomeGoods('sell')
-    
-    // 监听item中图片加载完成
-    this.$bus.$on('itemImageLoad', ()=>{
-      this.$refs.scroll.refresh();
-      // console.log("aa")
-    })
+     this.getHomeGoods('sell')
+      
+  
  },
   methods:{
     tabClick(index){
@@ -86,25 +85,8 @@ TabControl
         this.currentType="sell"
         break;
       }
-    },
-  //     mounted() {
-  //     // 监听GoodsListitem.vue中 @load 发送出来的数据
-  //     // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
-  //   //   this.$bus.$on('itemImageLoad' ,() => {
-  //   //   console.log(this.$refs.Homescroll.scroll)
-  //   //   this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
-  //   // })
-
-  //   // 1.图片加载完成的事件监听
-  //   const refresh = debounce(this.$refs.Home.refresh,50)
-  //   this.$bus.$on('itemImageLoad',() => {
-  //     refresh()
-  //   })
-
     
-
-
-  // },
+    },
      getHomeMultidata(){
       getHomeMultidata().then(res => {
       // 将端口数据存入 data中的result中
@@ -112,28 +94,29 @@ TabControl
       this.banners = res.data.data.banner.list;
       this.recommends = res.data.data.recommend.list;
     }) 
- },
- 
- getHomeGoods(type){
+    },
+     getHomeGoods(type){
       const page = this.goods[type].page + 1
       getHomeGoods(type,page).then(res => {
       // console.log(res)
       this.goods[type].list.push(...res.data.data.list)
       this.goods[type].page += 1
       // 再次 可以触发 pullUpLoad 下拉监听
-      // this.$refs.Homescroll.scroll.finishPullUp()
+      this.$refs.scroll.scroll.finishPullUp()
       })
     },
-   // 
-
-
+  // 上拉加载更多
+     pullingUp(){
+        this.getHomeGoods(this.currentType)
+      }
+     
 
 },
- computed: {
+    computed: {
     showGoods(){
       return this.goods[this.currentType].list
     }
-  },
+    },
     mounted() {
       // 监听GoodsListitem.vue中 @load 发送出来的数据
       // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
@@ -147,6 +130,13 @@ TabControl
     // this.$bus.$on('itemImageLoad',() => {
     //   refresh()
     // })
+      // 监听item中图片加载完成
+    this.$bus.$on('itemImageLoad', ()=>{
+      this.$refs.scroll.refresh();
+      // console.log("aa")
+    })
+     // tabcontril吸顶效果
+      this.tabOffsetTop = this.$refs.TabControl.$el.tabOffsetTop
     }
 }
 </script>
@@ -173,7 +163,7 @@ TabControl
   height: calc(100% - 94px);
   overflow: hidden;
   /* background: red; */
-  border:1px solid #000
+  /* border:1px solid #000 */
 }
 /* .contenta{
   height: 100%;
