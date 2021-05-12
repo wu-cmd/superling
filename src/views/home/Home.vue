@@ -4,19 +4,21 @@
       <nav-bar class="home-nav">
         <div slot="center">购物街</div>
       </nav-bar>
- 
- <scroll class="contenta" 
+      <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick" ref="TabControl1" v-show="isshowcontral" class="tabcla"></tab-control>
+        <scroll class="contenta" 
           ref="scroll"
          :probe-type='3' 
          :pull-up-load="true"  
-         @pullingUp="pullingUp">
-          <swipera :banners="banners"></swipera>
+         @pullingUp="pullingUp"
+         @scroll="scrolllength"
+         >
+          <swipera :banners="banners" @loadswiperimg="loadswiperimg"></swipera>
           <home-recommends :recommend="recommends"></home-recommends>
           <this-week></this-week>
-          <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick" ref="TabControl"></tab-control>
+          <tab-control :tabtitle="['流行','新款','精选']"   @tabClick="tabClick" ref="TabControl2"></tab-control>
           <good-list :goods="showGoods" ></good-list> 
-
-
+           </scroll>
+          <back-top @click.native="bettertop" v-show="isshow"></back-top>
       <!-- 轮播图 -->
    <!-- <swipera :banners="banners"></swipera> -->
    <!-- 四个大选项框 -->
@@ -26,7 +28,7 @@
     <!-- <good-list :goods="showGoods" ></good-list> -->
         <!-- 命名要注意  注册驼峰式  引用才能用 - - -  -->
     <!-- <goods-list :goods="showGoods"></goods-list> -->
-  </scroll>
+ 
      
    </div>
 </template>
@@ -40,6 +42,7 @@ import ThisWeek from './childComps/ThisWeek'
 import TabControl from '../../components/content/tabControl/TabControl'
 import  GoodList from '../../components/content/goods/GoodsList'
 import Scroll from '../../components/common/scroll/Scroll'
+import BackTop from '../../components/content/backTop/BackTop'
 export default {
 components:{
    NavBar,
@@ -48,7 +51,8 @@ components:{
    ThisWeek,
    TabControl,
     GoodList,
-    Scroll
+    Scroll,
+    BackTop
 },
  data(){
     return{
@@ -61,7 +65,9 @@ components:{
         "sell":{page:0,list:[]},
       },
       currentType:"pop",
-      tabOffsetTop:0
+      tabOffseTop:0,
+      isshow:false,
+      isshowcontral:false
           }
  },
  created() {
@@ -72,6 +78,29 @@ components:{
       
   
  },
+  mounted() {
+      // 监听GoodsListitem.vue中 @load 发送出来的数据
+      // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
+    //   this.$bus.$on('itemImageLoad' ,() => {
+    //   console.log(this.$refs.Homescroll.scroll)
+    //   this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
+    // })
+
+    // 1.图片加载完成的事件监听
+    // const refresh = debounce(this.$refs.Homescroll.refresh,50)
+    // this.$bus.$on('itemImageLoad',() => {
+    //   refresh()
+    // })
+      // 监听item中图片加载完成
+    this.$bus.$on('itemImageLoad', ()=>{
+        // console.log("aa",this.$refs.scroll.refresh())
+      // this.$refs.scroll.refresh();
+      // 法二
+     this.$refs.scroll && this.$refs.scroll.scroll.refresh()
+    
+    })
+    
+    },
   methods:{
     tabClick(index){
       switch(index){
@@ -85,7 +114,8 @@ components:{
         this.currentType="sell"
         break;
       }
-    
+    this.$refs.TabControl1.crrent=index;
+    this.$refs.TabControl2.crrent=index;
     },
      getHomeMultidata(){
       getHomeMultidata().then(res => {
@@ -108,36 +138,30 @@ components:{
   // 上拉加载更多
      pullingUp(){
         this.getHomeGoods(this.currentType)
-      }
-     
-
+      },
+    //  TabControl吸顶
+    loadswiperimg(){
+       // tabcontril吸顶效果,监听轮播图加载完之后的高度，这样比较准确
+      this.tabOffseTop = this.$refs.TabControl2.$el.offsetTop
+      // console.log("this.tabOffsetTop",this.$refs.TabControl.$el.offsetTop)
+    },
+    // 点击滚动返回到顶部
+    bettertop(){
+      // console.log("sadsadas",this.$refs.scroll.scrollTo(0,0,300))
+      this.$refs.scroll.scrollTo(0,0,300)
+    },
+    // 监听滚动的长度
+    scrolllength(position){
+    this.isshow = position.y < -1000
+    this.isshowcontral =  (-position.y) > this.tabOffseTop
+    }
 },
     computed: {
     showGoods(){
       return this.goods[this.currentType].list
     }
-    },
-    mounted() {
-      // 监听GoodsListitem.vue中 @load 发送出来的数据
-      // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
-    //   this.$bus.$on('itemImageLoad' ,() => {
-    //   console.log(this.$refs.Homescroll.scroll)
-    //   this.$refs.Homescroll && this.$refs.Homescroll.scroll.refresh()
-    // })
-
-    // 1.图片加载完成的事件监听
-    // const refresh = debounce(this.$refs.Homescroll.refresh,50)
-    // this.$bus.$on('itemImageLoad',() => {
-    //   refresh()
-    // })
-      // 监听item中图片加载完成
-    this.$bus.$on('itemImageLoad', ()=>{
-      this.$refs.scroll.refresh();
-      // console.log("aa")
-    })
-     // tabcontril吸顶效果
-      this.tabOffsetTop = this.$refs.TabControl.$el.tabOffsetTop
     }
+   
 }
 </script>
 
@@ -164,6 +188,10 @@ components:{
   overflow: hidden;
   /* background: red; */
   /* border:1px solid #000 */
+}
+.tabcla{
+  position: relative;
+  z-index: 9;
 }
 /* .contenta{
   height: 100%;

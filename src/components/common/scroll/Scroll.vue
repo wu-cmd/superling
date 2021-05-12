@@ -33,18 +33,20 @@ export default {
     probeType: this.probeType,
     pullUpLoad:this.pullUpLoad
     })
-    // this.scroll.scrollTo(0,0)
+    // 111111111111111111
+    this.scroll.scrollTo(0,0)
     // 监听滚动的位置
     this.scroll.on('scroll',(position) => {
-      console.log(position)
+      // console.log(position)
       this.$emit('scroll',position)
     })
     // console.log(this.scroll)
-  this.scroll.refresh();
+      // this.scroll.refresh();
     // 监听上拉事件
     this.scroll.on('pullingUp',() => {
-      console.log('上拉加载更多')
       this.$emit('pullingUp')
+      // console.log('上拉加载更多')
+      
     })
 
     // if(this.probeType === 2 || this.probeType === 3){
@@ -63,13 +65,14 @@ export default {
 
   },
   methods: {
-    // scrollTo(x,y,time=300){
-    //   this.scroll && this.scroll.scrollTo(x,y,time)
-    // },
-    refresh(){
-       this.scroll && this.scroll.refresh()
-      // console.log('-------')
-    }
+    // 222222
+    scrollTo(x,y,time=300){
+      this.scroll && this.scroll.scrollTo(x,y,time)
+    },
+    // refresh(){
+    //    console.log('-------',this.scroll)
+    //    this.scroll && this.scroll.refresh()
+    // }
   },
 }
 

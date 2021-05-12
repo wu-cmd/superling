@@ -2,7 +2,7 @@
   <swiper ref="swiper" v-if="banners.length" >
     <swiper-item v-for="(item, index) in banners" :key="index">
       <!-- <a :href="item.link"> -->
-      <a>
+      <a :href="item.link">
         <img :src="item.image" alt="" @load="loadswiperimg">
       </a>
     </swiper-item>
@@ -40,6 +40,7 @@
       },
       loadswiperimg(){
         // console.log('---')
+        // 监听轮播发送一次就行，获取轮播加加载完，获取高度
         if(this.isLoad == false){
           this.$emit('loadswiperimg')
           this.isLoad = true
