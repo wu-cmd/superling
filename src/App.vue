@@ -1,6 +1,11 @@
 <template>
   <div id="app">
+
+    <!-- 不销毁页面 -->
+   <keep-alive exclude="Detail">
     <router-view></router-view>
+   </keep-alive>
+   
    <main-tab-bar></main-tab-bar>
   </div>
 </template>

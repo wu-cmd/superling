@@ -67,9 +67,11 @@ components:{
       currentType:"pop",
       tabOffseTop:0,
       isshow:false,
-      isshowcontral:false
+      isshowcontral:false,
+      saveY:""
           }
  },
+ //  ********************************created初始化区域***************************************
  created() {
      this.getHomeMultidata()
      this.getHomeGoods("pop")
@@ -78,6 +80,7 @@ components:{
       
   
  },
+//  ********************************mounted组件加载完***************************************
   mounted() {
       // 监听GoodsListitem.vue中 @load 发送出来的数据
       // 刷新 scroll中 更新scrollerHeight 可以拉动的高度
@@ -101,6 +104,7 @@ components:{
     })
     
     },
+    // *******************************methods函数区（方法区）*******************************************
   methods:{
     tabClick(index){
       switch(index){
@@ -155,7 +159,23 @@ components:{
     this.isshow = position.y < -1000
     this.isshowcontral =  (-position.y) > this.tabOffseTop
     }
-},
+    },
+    // *************************activated(页面进来时)*******************************************
+    activated(){
+      // 进来的时候获取离开时候的位置
+      this.$refs.scroll.scrollTo(0,this.saveY,0)
+    },
+    //  *************************deactivated(页面离开)*******************************************
+    deactivated(){
+      // 离开页面时候，保存当前的滚动位置，并且app.vue设置此页面不销毁
+      this.saveY = this.$refs.scroll.scroll.y
+      // console.log("this.saveY",this.saveY)
+    },
+// -*************************destroy（页面销毁区域）*******************************************
+    destroyed(){
+      // console.log("home destory")
+    },
+// -*************************计算属性区********************************************************
     computed: {
     showGoods(){
       return this.goods[this.currentType].list
