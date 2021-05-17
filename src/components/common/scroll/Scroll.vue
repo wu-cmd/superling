@@ -37,7 +37,7 @@ export default {
     this.scroll.scrollTo(0,0)
     // 监听滚动的位置
     this.scroll.on('scroll',(position) => {
-      // console.log(position)
+      console.log(position)
       this.$emit('scroll',position)
     })
     // console.log(this.scroll)
@@ -69,10 +69,10 @@ export default {
     scrollTo(x,y,time=300){
       this.scroll && this.scroll.scrollTo(x,y,time)
     },
-    // refresh(){
-    //    console.log('-------',this.scroll)
-    //    this.scroll && this.scroll.refresh()
-    // }
+    refresh(){
+       console.log('-------',this.scroll)
+       this.scroll && this.scroll.refresh()
+    }
   },
 }
 
